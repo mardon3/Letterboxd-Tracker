@@ -1,5 +1,3 @@
-go mod tidy
-
 # Letterboxd Tracker
 
 Letterboxd Tracker is a desktop application for macOS (Wails: Go + React) that lets you import, browse, and analyze your Letterboxd movie history locally. It scrapes your public Letterboxd profile, stores all your films and metadata in a local SQLite database, and provides a fast, modern UI for searching and statistics.
