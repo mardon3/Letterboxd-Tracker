@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+/* Letterboxd-inspired color palette */
+@theme {
+  --color-letterboxd-orange: #ff8000;
+  --color-letterboxd-green: #00c030;
+  --color-letterboxd-blue: #40bcf4;
+  --color-letterboxd-dark: #14181c;
+  --color-letterboxd-darker: #0e1215;
+  --color-letterboxd-gray: #445566;
+  --color-letterboxd-light-gray: #9ab;
+  
+  --font-family-display: 'Graphik', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-letterboxd-darker);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-letterboxd-gray);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-letterboxd-light-gray);
+}
+
+/* Star rating custom styles */
+.star-rating {
+  color: var(--color-letterboxd-orange);
+}
+
+/* Smooth transitions */
+* {
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Poster aspect ratio */
+.poster-aspect {
+  aspect-ratio: 2 / 3;
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
