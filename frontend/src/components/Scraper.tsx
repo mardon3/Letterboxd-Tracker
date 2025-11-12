@@ -26,7 +26,7 @@ export default function Scraper() {
       setProgress('');
       setUsername('');
     } catch (err) {
-      setError(`Import failed: ${err.message}`);
+      setError(`Import failed: ${err instanceof Error ? err.message : String(err)}`);
       setProgress('');
     } finally {
       setScraping(false);

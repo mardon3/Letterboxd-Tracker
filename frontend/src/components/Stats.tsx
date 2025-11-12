@@ -1,8 +1,28 @@
+
 import { useState, useEffect } from 'react';
 import { GetStats } from '../../wailsjs/go/main/App';
+import { Movie } from '../models';
+
+interface PersonStat {
+  name: string;
+  movie_count: number;
+}
+
+interface StatsType {
+  total_movies?: number;
+  average_rating?: number;
+  average_letterboxd_rating?: number;
+  total_runtime_formatted?: string;
+  total_runtime_minutes?: number;
+  movies_by_year?: Record<string, number>;
+  top_movies?: Movie[];
+  top_directors?: PersonStat[];
+  top_actors?: PersonStat[];
+  top_writers?: PersonStat[];
+}
 
 export default function Stats() {
-  const [stats, setStats] = useState({});
+  const [stats, setStats] = useState<StatsType>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -14,14 +34,11 @@ export default function Stats() {
     try {
       setLoading(true);
       const result = await GetStats();
-      console.log('GetStats result:', result);
-      console.log('Total movies from stats:', result?.total_movies || 0);
-      console.log('Top movies:', result?.top_movies || []);
-      setStats(result || {});
+      setStats((result as StatsType) || {});
       setError('');
     } catch (err) {
       console.error('GetStats error:', err);
-      setError('Failed to load statistics: ' + err.message);
+      setError('Failed to load statistics: ' + (err instanceof Error ? err.message : String(err)));
     } finally {
       setLoading(false);
     }
@@ -85,10 +102,10 @@ export default function Stats() {
           <div className="bg-[#1f2937] border border-[#456] rounded-lg p-6 shadow-lg">
             <div className="space-y-4">
               {Object.entries(stats.movies_by_year)
-                .sort(([yearA], [yearB]) => yearB - yearA)
+                .sort(([yearA], [yearB]) => Number(yearB) - Number(yearA))
                 .map(([year, count]) => {
-                  const maxCount = Math.max(...Object.values(stats.movies_by_year));
-                  const percentage = (count / maxCount) * 100;
+                  const maxCount = Math.max(...Object.values(stats.movies_by_year!));
+                  const percentage = (Number(count) / maxCount) * 100;
                   return (
                     <div key={year} className="flex items-center gap-4">
                       <span className="text-white font-medium w-16">{year}</span>
@@ -98,12 +115,12 @@ export default function Stats() {
                           style={{ width: `${percentage}%` }}
                         >
                           {percentage > 20 && (
-                            <span className="text-white text-sm font-medium">{count}</span>
+                            <span className="text-white text-sm font-medium">{count as number}</span>
                           )}
                         </div>
                       </div>
                       {percentage <= 20 && (
-                        <span className="text-letterboxd-light-gray font-medium w-8 text-right">{count}</span>
+                        <span className="text-letterboxd-light-gray font-medium w-8 text-right">{count as number}</span>
                       )}
                     </div>
                   );
@@ -129,9 +146,15 @@ export default function Stats() {
                     <span className="text-white font-medium flex-1">{movie.title}</span>
                   </div>
                   <span className="text-[#fbbf24] font-medium">
-                    {'★'.repeat(Math.floor(movie.rating))}
-                    {movie.rating % 1 >= 0.5 ? '½' : ''}
-                    <span className="text-letterboxd-light-gray ml-2 text-sm">{movie.rating.toFixed(1)}/5</span>
+                    {typeof movie.rating === 'number' && movie.rating > 0 ? (
+                      <>
+                        {'★'.repeat(Math.floor(movie.rating))}
+                        {movie.rating % 1 >= 0.5 ? '½' : ''}
+                        <span className="text-letterboxd-light-gray ml-2 text-sm">{movie.rating.toFixed(1)}/5</span>
+                      </>
+                    ) : (
+                      <span className="text-letterboxd-light-gray ml-2 text-sm">N/A</span>
+                    )}
                   </span>
                 </div>
               ))}

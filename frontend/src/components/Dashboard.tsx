@@ -1,14 +1,22 @@
 import { useState, useEffect } from 'react';
 import { GetAllMovies, SearchMovies, GetMoviesByRating, GetStats } from '../../wailsjs/go/main/App';
 import MovieList from './MovieList';
+import { Movie } from '../models';
+
+interface Stats {
+  total_movies?: number;
+  average_rating?: number;
+  total_runtime_formatted?: string;
+  [key: string]: any;
+}
 
 export default function Dashboard() {
-  const [movies, setMovies] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filter, setFilter] = useState('all');
-  const [stats, setStats] = useState({});
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [filter, setFilter] = useState<string>('all');
+  const [stats, setStats] = useState<Stats>({});
 
   useEffect(() => {
     loadMovies();
@@ -31,10 +39,10 @@ export default function Dashboard() {
     try {
       setLoading(true);
       const result = await GetAllMovies();
-      setMovies(result || []);
+      setMovies((result as Movie[]) || []);
       setError('');
     } catch (err) {
-      setError('Failed to load movies: ' + err);
+      setError('Failed to load movies: ' + (err instanceof Error ? err.message : String(err)));
       setMovies([]);
     } finally {
       setLoading(false);
@@ -44,7 +52,7 @@ export default function Dashboard() {
   const loadStats = async () => {
     try {
       const result = await GetStats();
-      setStats(result || {});
+      setStats((result as Stats) || {});
     } catch (err) {
       console.error('Failed to load stats:', err);
     }
@@ -57,21 +65,21 @@ export default function Dashboard() {
         loadMovies();
       } else {
         const result = await SearchMovies(searchQuery);
-        setMovies(result || []);
+        setMovies((result as Movie[]) || []);
       }
       setError('');
     } catch (err) {
-      setError('Search failed: ' + err.message);
+      setError('Search failed: ' + (err instanceof Error ? err.message : String(err)));
     } finally {
       setLoading(false);
     }
   };
 
-  const applyFilter = async (filterType) => {
+  const applyFilter = async (filterType: string) => {
     try {
       setLoading(true);
 
-      let result = [];
+      let result: Movie[] = [];
       switch (filterType) {
         case 'highRated':
           result = await GetMoviesByRating(4.0);
@@ -80,10 +88,10 @@ export default function Dashboard() {
           result = await GetAllMovies();
       }
 
-      setMovies(result || []);
+      setMovies((result as Movie[]) || []);
       setError('');
     } catch (err) {
-      setError('Filter failed: ' + err.message);
+      setError('Filter failed: ' + (err instanceof Error ? err.message : String(err)));
       console.error('Filter error:', err);
     } finally {
       setLoading(false);

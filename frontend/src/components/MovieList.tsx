@@ -1,6 +1,11 @@
 import MovieCard from './MovieCard';
+import { Movie } from '../models';
 
-export default function MovieList({ movies }) {
+interface MovieListProps {
+  movies: Movie[];
+}
+
+export default function MovieList({ movies }: MovieListProps) {
   if (!movies || movies.length === 0) {
     return <div className="text-center py-10 text-letterboxd-light-gray">No movies to display</div>;
   }

@@ -1,10 +1,15 @@
 import { useState } from 'react';
+import { Movie } from '../models';
 
-export default function MovieCard({ movie }) {
+interface MovieCardProps {
+  movie: Movie;
+}
+
+export default function MovieCard({ movie }: MovieCardProps) {
   const [expanded, setExpanded] = useState(false);
   const [imageError, setImageError] = useState(false);
 
-  const formatRating = (rating) => {
+  const formatRating = (rating: number | undefined) => {
     if (!rating) return '';
     const stars = '★'.repeat(Math.floor(rating));
     const half = rating % 1 >= 0.5 ? '½' : '';
@@ -41,7 +46,7 @@ export default function MovieCard({ movie }) {
               {movie.year > 0 && (
                 <div className="text-letterboxd-light-gray text-xs mb-2">{movie.year}</div>
               )}
-              {movie.rating > 0 && (
+              {movie.rating && movie.rating > 0 && (
                 <div className="text-letterboxd-orange text-lg star-rating">
                   {formatRating(movie.rating)}
                 </div>
@@ -96,7 +101,7 @@ export default function MovieCard({ movie }) {
                 </div>
 
                 <div className="space-y-4">
-                  {movie.rating > 0 && (
+                  {movie.rating && movie.rating > 0 && (
                     <div>
                       <div className="text-letterboxd-light-gray text-xs uppercase tracking-wide mb-1">Your Rating</div>
                       <div className="text-letterboxd-orange text-3xl star-rating">
@@ -105,14 +110,14 @@ export default function MovieCard({ movie }) {
                     </div>
                   )}
 
-                  {movie.letterboxd_rating > 0 && (
+                  {movie.letterboxd_rating && movie.letterboxd_rating > 0 && (
                     <div>
                       <div className="text-letterboxd-light-gray text-xs uppercase tracking-wide mb-1">Letterboxd Rating</div>
                       <div className="text-white text-xl">{movie.letterboxd_rating.toFixed(2)} / 5.0</div>
                     </div>
                   )}
 
-                  {movie.length > 0 && (
+                  {movie.length && movie.length > 0 && (
                     <div>
                       <div className="text-letterboxd-light-gray text-xs uppercase tracking-wide mb-1">Runtime</div>
                       <div className="text-white">{movie.length} minutes</div>
