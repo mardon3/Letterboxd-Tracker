@@ -216,11 +216,13 @@ func (m *MovieDB) GetStats() (map[string]interface{}, error) {
 	stats["total_runtime_minutes"] = runtimeMinutes
 	stats["total_runtime_formatted"] = fmt.Sprintf("%d days, %d hours, %d minutes", days, hours, minutes)
 
-	// Total likes (removed - field no longer exists)
-	stats["total_likes"] = 0
+	// Average runtime in minutes
+	averageRuntimeMinutes := runtimeMinutes / int64(totalMovies)
+	hours = averageRuntimeMinutes / 60
+	minutes = averageRuntimeMinutes % 60
 
-	// Total rewatches (removed - field no longer exists)
-	stats["total_rewatches"] = 0
+	stats["average_runtime_minutes"] = averageRuntimeMinutes
+	stats["average_runtime_formatted"] = fmt.Sprintf("%d hours, %d minutes", hours, minutes)
 
 	// Movies by year (top 10 years)
 	rows, err := m.db.Query(`

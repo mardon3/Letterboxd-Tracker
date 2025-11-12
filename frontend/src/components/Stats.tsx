@@ -14,6 +14,8 @@ interface StatsType {
   average_letterboxd_rating?: number;
   total_runtime_formatted?: string;
   total_runtime_minutes?: number;
+  average_runtime_formatted?: string;
+  average_runtime_minutes?: number;
   movies_by_year?: Record<string, number>;
   top_movies?: Movie[];
   top_directors?: PersonStat[];
@@ -64,14 +66,14 @@ export default function Stats() {
       )}
 
       {/* Summary Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-2 mb-8">
         <div className="bg-[#1f2937] border border-[#456] rounded-lg p-6 shadow-lg">
           <h3 className="text-letterboxd-light-gray text-sm font-medium mb-2">Total Movies Watched</h3>
           <p className="text-4xl font-bold text-white">{stats.total_movies || 0}</p>
         </div>
 
         <div className="bg-[#1f2937] border border-[#456] rounded-lg p-6 shadow-lg">
-          <h3 className="text-letterboxd-light-gray text-sm font-medium mb-2">Average Personal Rating</h3>
+          <h3 className="text-letterboxd-light-gray text-sm font-medium mb-2">Avg Personal Rating</h3>
           <p className="text-4xl font-bold text-letterboxd-orange">
             {(stats.average_rating || 0).toFixed(2)}
           </p>
@@ -79,7 +81,7 @@ export default function Stats() {
         </div>
 
         <div className="bg-[#1f2937] border border-[#456] rounded-lg p-6 shadow-lg">
-          <h3 className="text-letterboxd-light-gray text-sm font-medium mb-2">Average Letterboxd Rating</h3>
+          <h3 className="text-letterboxd-light-gray text-sm font-medium mb-2">Avg Letterboxd Rating</h3>
           <p className="text-4xl font-bold text-letterboxd-blue">
             {(stats.average_letterboxd_rating || 0).toFixed(2)}
           </p>
@@ -92,6 +94,14 @@ export default function Stats() {
             {stats.total_runtime_formatted || 'N/A'}
           </p>
           <p className="text-[#678] text-xs mt-1">{stats.total_runtime_minutes || 0} minutes</p>
+        </div>
+
+     <div className="bg-[#1f2937] border border-[#456] rounded-lg p-6 shadow-lg">
+          <h3 className="text-letterboxd-light-gray text-sm font-medium mb-2">Avg Movie Runtime</h3>
+          <p className="text-2xl font-bold text-white">
+            {stats.average_runtime_formatted || 'N/A'}
+          </p>
+          <p className="text-[#678] text-xs mt-1">{stats.average_runtime_minutes || 0} minutes</p>
         </div>
       </div>
 
