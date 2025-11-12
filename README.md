@@ -7,7 +7,7 @@ Letterboxd Tracker is a desktop application for macOS (Wails: Go + React) that l
 - **Dashboard**: Browse your entire film collection, search by title, and filter by rating.
 - **Statistics**: View total films, average ratings, watch time, most-watched years, top-rated movies, and top directors/actors/writers.
 - **Local Storage**: All data is stored locally. No data is sent to any server.
-- **Modern UI**: Responsive, dark-themed interface using React and Tailwind CSS.
+- **Letterboxd Inspired UI**: Dark-themed interface using React and Tailwind CSS.
 
 ## Quick Start
 1. **Install dependencies:**
@@ -52,6 +52,3 @@ Letterboxd Tracker is a desktop application for macOS (Wails: Go + React) that l
 - All scraping is done client-side; no external API or server is used.
 - The app is designed for personal use and privacy.
 - The codebase is fully up to date as of November 2025.
-
-## License
-MIT
