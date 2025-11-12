@@ -52,6 +52,3 @@ Letterboxd Tracker is a desktop application for macOS (Wails: Go + React) that l
 - All scraping is done client-side; no external API or server is used.
 - The app is designed for personal use and privacy.
 - The codebase is fully up to date as of November 2025.
-
-## License
-MIT
