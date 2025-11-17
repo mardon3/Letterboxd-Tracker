@@ -101,3 +101,19 @@ func (a *App) GetMoviesByYear(year int) ([]database.Movie, error) {
 	}
 	return a.db.GetMoviesByYear(year)
 }
+
+// DeleteDatabase deletes all movies from the database
+func (a *App) DeleteDatabase() error {
+	if a.db == nil {
+		return fmt.Errorf("database not initialized")
+	}
+	
+	// Delete all movies
+	_, err := a.db.GetDB().Exec("DELETE FROM movies")
+	if err != nil {
+		return fmt.Errorf("failed to delete movies: %w", err)
+	}
+
+	log.Println("Database cleared successfully")
+	return nil
+}
